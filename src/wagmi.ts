@@ -1,13 +1,9 @@
 "use client";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
-import {
-  coinbaseWallet,
-  metaMaskWallet,
-  rainbowWallet,
-} from "@rainbow-me/rainbowkit/wallets";
+import { coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
 import { useMemo } from "react";
 import { http, createConfig } from "wagmi";
-import { base, baseSepolia } from "wagmi/chains";
+import { baseSepolia } from "wagmi/chains";
 import { NEXT_PUBLIC_WC_PROJECT_ID } from "./config";
 
 export function useWamigConfig() {
@@ -25,10 +21,6 @@ export function useWamigConfig() {
           groupName: "Recommended Wallet",
           wallets: [coinbaseWallet],
         },
-        {
-          groupName: "Other Wallets",
-          wallets: [rainbowWallet, metaMaskWallet],
-        },
       ],
       {
         appName: "onchainkit",
@@ -43,7 +35,6 @@ export function useWamigConfig() {
       connectors,
       ssr: true,
       transports: {
-        [base.id]: http(),
         [baseSepolia.id]: http(),
       },
     });

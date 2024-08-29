@@ -1,22 +1,33 @@
 "use client";
 import { useAccount, useReadContract } from "wagmi";
 import SignupButton from "src/components/SignupButton";
-
-const contractAddress = "0x1C3DFeA9D752EBb68555B926546Ae8E349Ec9226";
-const contractABI = [
-  // Minimal ABI to get ERC20 Token balance
-  "function balanceOf(address owner) view returns (uint256)",
-];
+import { ethers, BigNumberish } from "ethers";
+import { touchTokenABI } from "src/abis/touchTokenABI";
+import { touchTokenAddress } from "src/constants";
 
 const Home = () => {
   const { address } = useAccount();
-  const { data: balance } = useReadContract({
-    address: contractAddress,
-    abi: contractABI,
+  console.log("User address:", address); // Log the address
+
+  const {
+    data: balance,
+    isLoading,
+    isError,
+  } = useReadContract({
+    address: touchTokenAddress,
+    abi: touchTokenABI,
     functionName: "balanceOf",
     args: [address],
   });
+
+  const formattedBalance = balance
+    ? ethers.formatEther(balance as BigNumberish)
+    : "0";
+
   console.log("Balance data:", balance); // Log the balance data
+  console.log("Formatted balance:", formattedBalance);
+  console.log("Loading state:", isLoading); // Log the loading state
+  console.log("Error state:", isError); // Log the error state
 
   return (
     <div className="mb-2">
@@ -40,7 +51,13 @@ const Home = () => {
               <div className="text-xl font-bold text-purple-600 flex items-end">
                 ❖
               </div>
-              <div className="text-3xl font-bold">{String(balance)}</div>
+              <div className="text-3xl font-bold">
+                {isLoading
+                  ? "Loading..."
+                  : formattedBalance !== undefined
+                    ? String(formattedBalance)
+                    : "N/A"}
+              </div>
             </div>
           </>
         )}
