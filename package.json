@@ -18,7 +18,10 @@
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.29.5",
+    "@web3-storage/w3up-client": "^16.0.0",
+    "alchemy-sdk": "^3.4.1",
     "ethers": "^6.13.2",
+    "ipfs-http-client": "^60.0.1",
     "next": "^14.2.5",
     "permissionless": "^0.1.26",
     "react": "^18",
